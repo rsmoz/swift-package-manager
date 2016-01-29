@@ -43,14 +43,12 @@ public struct Version {
         self.major = requiredComponents[0]
         self.minor = requiredComponents[1]
         self.patch = requiredComponents[2]
-
-        if let prereleaseStartIndex = prereleaseStartIndex {
-            let prereleaseEndIndex = metadataStartIndex ?? characters.endIndex
-            let prereleaseCharacters = characters[prereleaseStartIndex.successor()..<prereleaseEndIndex]
-            prereleaseIdentifiers = prereleaseCharacters.split(".").map{ String($0) }
-        } else {
-            prereleaseIdentifiers = []
-        }
+        
+        let prereleaseEndIndex = metadataStartIndex ?? characters.endIndex
+        
+        self.prereleaseIdentifiers = prereleaseStartIndex
+                                       .map { characters[$0.successor() ..< prereleaseEndIndex] }.map { $0.split(".") }?.map { String($0) } ?? []
+        
         
         self.buildMetadataIdentifier = metadataStartIndex
                                        .map { characters.suffixFrom($0.successor()) }
