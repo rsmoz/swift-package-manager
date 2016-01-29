@@ -53,10 +53,9 @@ public struct Version {
         }
         
         self.buildMetadataIdentifier = metadataStartIndex
-                                       .flatMap { $0.successor() }
-                                       .flatMap { characters.suffixFrom($0) }
+                                       .map { characters.suffixFrom($0.successor()) }
                                        .flatMap { $0.isEmpty ? nil : $0 }
-                                       .flatMap { String($0) }
+                                       .map { String($0) }
 
 
     }
